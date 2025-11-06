@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors</title>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      color: #fff;
+      text-align: center;
+      font-family: "Poppins", sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    button {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      border: none;
+      color: white;
+      padding: 15px 35px;
+      font-size: 1.2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 6px 25px rgba(255,255,255,0.3);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    #DisplayResult {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 15px 25px;
+      border-radius: 15px;
+      font-size: 1.2rem;
+      width: 80%;
+      max-width: 600px;
+      line-height: 1.6;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .win {
+      color: #00ff88;
+      font-weight: bold;
+    }
+
+    .lose {
+      color: #000000;
+      font-weight: bold;
+    }
+
+    .tie {
+      color: #ffe600;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🪨 Rock ✋ Paper ✂️ Scissors</h1>
+
+  <div class="buttons">
+    <button onclick="play('Rock')">🪨 Rock</button>
+    <button onclick="play('Paper')">✋ Paper</button>
+    <button onclick="play('Scissor')">✂️ Scissor</button>
+  </div>
+
+  <p id="DisplayResult">Make your move!</p>
+
+  <script>
+    const Display = document.querySelector("#DisplayResult");
+
+    function getComputerChoice() {
+      const ran = Math.floor(Math.random() * 3);
+      if (ran === 0) return 'Rock';
+      if (ran === 1) return 'Paper';
+      return 'Scissor';
+    }
+
+    function play(user) {
+      const comp = getComputerChoice();
+      let result = '';
+
+      if (user === comp) {
+        result = 'tie';
+      } else if (
+        (user === 'Rock' && comp === 'Paper') ||
+        (user === 'Paper' && comp === 'Scissor') ||
+        (user === 'Scissor' && comp === 'Rock')
+      ) {
+        result = 'lose';
+      } else {
+        result = 'win';
+      }
+
+      Display.className = '';
+      Display.classList.add(result);
+
+      const resultText = 
+        result === 'win' ? '🎉 You Win!' :
+        result === 'lose' ? '😞 You Lose!' : 
+        '😐 It’s a Tie!';
+
+      Display.innerHTML = `
+        You chose: <b>${user}</b> <br>
+        Computer chose: <b>${comp}</b> <br>
+        Result: <span class="${result}">${resultText}</span>
+      `;
+    }
+  </script>
+
+</body>
+</html>
