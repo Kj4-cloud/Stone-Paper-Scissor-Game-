@@ -6,7 +6,7 @@
 
   <style>
     body {
-      background: linear-gradient(#b088cf);
+      background: linear-gradient(35deg ,#0a5550);
       color: #fff;
       text-align: center;
       font-family: "Poppins", sans-serif;
@@ -30,7 +30,7 @@
     }
 
     button {
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      background: linear-gradient(#ad6bc3);
       border: none;
       color: white;
       padding: 15px 35px;
@@ -90,30 +90,49 @@
 
   <p id="DisplayResult">Make your move!</p>
 
-  <script>
-    const Display = document.querySelector("#DisplayResult");
+    <h1><div id="WinScore"></div></h1>
+    <button onclick="Clear()">Reset Score</button>
 
-    function getComputerChoice() {
+  <script>
+    function Clear(){
+      localStorage.removeItem('Score');
+      location.reload();
+    }
+
+    const Display = document.querySelector("#DisplayResult");
+    const Wscor=document.querySelector('#WinScore');
+   
+    let score = JSON.parse(localStorage.getItem('Score')) || {
+      Win: 0,
+      Loss: 0,
+      Ties: 0
+    };
+
+     function getComputerChoice() {
       const ran = Math.floor(Math.random() * 3);
       if (ran === 0) return 'Rock';
       if (ran === 1) return 'Paper';
       return 'Scissor';
-    }
+     }
 
-    function play(user) {
+     function play(user) {
       const comp = getComputerChoice();
       let result = '';
 
       if (user === comp) {
         result = 'tie';
+        score.Ties++;
       } else if (
         (user === 'Rock' && comp === 'Paper') ||
         (user === 'Paper' && comp === 'Scissor') ||
         (user === 'Scissor' && comp === 'Rock')
       ) {
         result = 'lose';
+        score.Loss++;
       } else {
         result = 'win';
+
+        score.Win++;
       }
 
       Display.className = '';
@@ -129,9 +148,15 @@
         Computer chose: <b>${comp}</b> <br>
         Result: <span class="${result}">${resultText}</span>
       `;
+                updateScoreDisplay();
+      localStorage.setItem('Score', JSON.stringify(score));
     }
-  </script>
 
+    function updateScoreDisplay() {
+      Wscor.innerText = `Win: ${score.Win} | Lose: ${score.Loss} | Tie: ${score.Ties}`;
+
+    }
+
+</script>
 </body>
 </html>
-
